@@ -91,7 +91,7 @@ importers:
         specifier: 'catalog:'
         version: 3.1.7
 
-  packages/lens:
+  packages/theme-lens:
     publishDirectory: dist
 
   packages/valaxy-theme-lens:
@@ -104,7 +104,7 @@ importers:
         version: 1.2.9
       theme-lens:
         specifier: workspace:*
-        version: link:../lens
+        version: link:../theme-lens
     devDependencies:
       valaxy:
         specifier: 'catalog:'
