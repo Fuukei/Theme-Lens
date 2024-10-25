@@ -1,0 +1,9 @@
+packages:
+  - packages/*
+  - demo
+  - demos/*
+catalog:
+  nodemon: ^3.1.7
+  typescript: ^5.6.3
+  valaxy: ^0.20.0
+  taze: ^0.17.2
