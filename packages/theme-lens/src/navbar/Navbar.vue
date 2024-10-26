@@ -24,14 +24,15 @@ const props = defineProps<{
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  padding: 0.75rem max(0.75rem, env(safe-area-inset-left)) 0.75rem max(0.75rem, env(safe-area-inset-right));
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  padding: 0.375rem max(0.375rem, env(safe-area-inset-left)) 0.375rem max(0.375rem, env(safe-area-inset-right));
   transition: all 0.6s ease-in-out;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(255, 87, 34, 0.8), rgba(41, 121, 255, 0.8));
+  background: rgba(255, 255, 255, 0.85);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 
@@ -45,9 +46,10 @@ const props = defineProps<{
 
   &:not(.active-header) {
     top: 2.5%;
-    left: 2.5%;
-    width: 95%;
-    border-radius: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    border-radius: 50px;
   }
 
   .navbar-title {
@@ -60,7 +62,7 @@ const props = defineProps<{
   .navbar-links {
     ul {
       display: flex;
-      gap: 1.5rem;
+      gap: 0.55rem;
 
       li {
         list-style: none;
@@ -69,28 +71,16 @@ const props = defineProps<{
           text-decoration: none;
           font-size: 1rem;
           font-weight: 500;
-          color: #fff;
+          color: #333; 
           position: relative;
-          transition: color 0.3s, transform 0.3s;
+          transition: color 0.3s, background-color 0.3s;
+          padding: 0.375rem max(0.75rem, env(safe-area-inset-left)) 0.375rem max(0.75rem, env(safe-area-inset-right)); /* Default padding */
+          border-radius: 50px; 
 
           &:hover {
-            color: #ff5722;
-            transform: scale(1.1);
-          }
-
-          &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background-color: #ff5722;
-            transition: width 0.3s;
-          }
-
-          &:hover::after {
-            width: 100%;
+            color: #007bff; 
+            background-color: rgba(0, 123, 255, 0.1); 
+            border-radius: 50px;
           }
         }
       }
