@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Navbar } from 'theme-lens'
 import { useAppStore, useSiteConfig } from 'valaxy'
 
 // import { computed } from 'vue'
@@ -15,7 +16,8 @@ const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <nav w="full" class="flex items-center justify-between py-10 font-bold">
+  <Navbar :navbar="themeConfig.nav" />
+  <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">
     <RouterLink class="text-xl" to="/" :aria-label="siteConfig.title">
       <img
         class="mr-2 inline-block"
@@ -41,5 +43,5 @@ const themeConfig = useThemeConfig()
       <div v-if="!appStore.isDark" i-ri-sun-line />
       <div v-else i-ri-moon-line />
     </button>
-  </nav>
+  </nav> -->
 </template>
