@@ -11,7 +11,9 @@ const props = defineProps<{
 <template>
   <header class="navbar">
     <!-- <h1 class="navbar-title">{{ props.title }}</h1> -->
-     <div />
+     <div class="navbar-avatar navbar-bg">
+      <img class="rounded-full" :src="props.avatar" alt="avatar" />
+    </div>
      
     <nav class="navbar-links navbar-bg">
       <AppLink v-for="item in props.navbar" :key="item.text" :to="item.link">
@@ -19,9 +21,8 @@ const props = defineProps<{
       </AppLink>
     </nav>
 
-    <div class="navbar-right navbar-bg">
-      <img class="navbar-avatar rounded-full" :src="props.avatar" alt="avatar" />
-      <a>log in</a>
+    <div class="navbar-utils navbar-bg">
+      <slot name="utils" />
     </div>
   </header>
 </template>
@@ -74,7 +75,7 @@ const props = defineProps<{
     }
   }
 
-  .navbar-right {
+  .navbar-avatar {
     display: flex;
     align-items: center;
     height: 100%;
@@ -82,6 +83,10 @@ const props = defineProps<{
     img {
       height: 100%;
     }
+  }
+
+  .navbar-utils {
+    padding: 0.375rem;
   }
 }
 

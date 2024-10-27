@@ -16,7 +16,15 @@ const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar" />
+  <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
+    <template #utils>
+    <div flex="~">
+      <LensToggleTheme class="mr-2" />
+      <!-- TODO: 优先完成文章列表再进行搜索 -->
+      <div i-ant-design-search-outlined />
+    </div>
+    </template>
+  </Navbar>
   <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">
     <RouterLink class="text-xl" to="/" :aria-label="siteConfig.title">
       <img
