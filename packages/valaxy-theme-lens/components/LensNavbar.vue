@@ -16,7 +16,7 @@ const themeConfig = useThemeConfig()
 </script>
 
 <template>
-  <Navbar :navbar="themeConfig.nav" />
+  <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar" />
   <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">
     <RouterLink class="text-xl" to="/" :aria-label="siteConfig.title">
       <img
