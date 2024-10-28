@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { Post } from 'valaxy'
-import { usePostList } from 'valaxy'
 import { ArticleCard } from 'theme-lens'
+import { usePostList } from 'valaxy'
+import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
   type?: string

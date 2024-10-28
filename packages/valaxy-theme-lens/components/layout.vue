@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Helper, Footer } from 'theme-lens';
+import { Footer, Helper } from 'theme-lens'
 </script>
 
 <template>

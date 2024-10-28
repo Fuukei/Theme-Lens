@@ -17,7 +17,7 @@ const themeConfig = useThemeConfig()
   <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
     <template #utils-expand>
       <!-- TODO: 优先完成文章列表再进行搜索 -->
-      <div i-ant-design-search-outlined></div>
+      <div i-ant-design-search-outlined />
     </template>
   </Navbar>
   <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">
