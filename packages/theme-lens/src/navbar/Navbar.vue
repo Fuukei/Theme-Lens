@@ -21,7 +21,7 @@ const props = defineProps<{
       </AppLink>
     </nav>
 
-    <div class="navbar-utils navbar-bg">
+    <div class="navbar-utils navbar-bg nav-toggler-panel">
       <slot name="utils" />
     </div>
   </header>
@@ -86,6 +86,7 @@ const props = defineProps<{
   }
 
   .navbar-utils {
+    display: flex;
     padding: 0.375rem;
   }
 }
