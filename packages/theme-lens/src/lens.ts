@@ -39,6 +39,6 @@ export { default as Navbar } from './navbar/Navbar.vue';
 export * from './postlist/PostList.vue';
 export { default as PostList } from './postlist/PostList.vue';
 
-// ToggleLocale
-export * from './togglelocale/ToggleLocale.vue';
-export { default as ToggleLocale } from './togglelocale/ToggleLocale.vue';
+// ToggleDark
+export * from './toggledark/ToggleDark.vue';
+export { default as ToggleDark } from './toggledark/ToggleDark.vue';

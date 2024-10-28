@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NavbarItem } from './navbar'
-import { AppLink } from '../lens'
+import { AppLink, ToggleDark } from '../lens'
 
 const props = defineProps<{
   title?: string;
@@ -22,7 +22,10 @@ const props = defineProps<{
     </nav>
 
     <div class="navbar-utils navbar-bg">
-      <slot name="utils" />
+      <slot name="utils">
+        <ToggleDark />
+        <slot name="utils-expand" />
+      </slot>
     </div>
   </header>
 </template>
