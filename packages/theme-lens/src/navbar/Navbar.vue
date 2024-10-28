@@ -10,7 +10,6 @@ const props = defineProps<{
 
 <template>
   <header class="navbar">
-    <!-- <h1 class="navbar-title">{{ props.title }}</h1> -->
      <div class="navbar-avatar navbar-bg">
       <img class="rounded-full" :src="props.avatar" alt="avatar" />
     </div>
@@ -21,7 +20,7 @@ const props = defineProps<{
       </AppLink>
     </nav>
 
-    <div class="navbar-utils navbar-bg nav-toggler-panel">
+    <div class="navbar-utils navbar-bg">
       <slot name="utils" />
     </div>
   </header>
@@ -32,17 +31,16 @@ const props = defineProps<{
   position: fixed;
   left: 0;
   height: 55px;
-  // width: fit-content;
   width: 100%;
   padding: 0.375rem max(0.375rem, env(safe-area-inset-left)) 0.375rem max(0.375rem, env(safe-area-inset-right));
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 1rem;
   z-index: 1000;
 
   &:not(.active-header) {
     top: 2.5%;
-    // width: fit-content;
   }
 
   .navbar-links {
@@ -50,7 +48,7 @@ const props = defineProps<{
     display: flex;
     gap: 0.1875rem;
     text-align: center;
-    padding: 0.375rem;
+    padding: 0.1875rem;
 
     a {
       display: flex;
@@ -79,6 +77,7 @@ const props = defineProps<{
     display: flex;
     align-items: center;
     height: 100%;
+    padding: 0.1875rem;
 
     img {
       height: 100%;
@@ -88,6 +87,8 @@ const props = defineProps<{
   .navbar-utils {
     display: flex;
     padding: 0.375rem;
+    flex-direction: row;
+    gap: 1rem;
   }
 }
 
@@ -111,4 +112,5 @@ const props = defineProps<{
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 }
+
 </style>
