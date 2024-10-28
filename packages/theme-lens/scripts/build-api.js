@@ -1,4 +1,5 @@
 const path = require('node:path')
+const process = require('node:process')
 const fs = require('fs-extra')
 
 const rootDir = path.resolve(__dirname, '../')
@@ -10,7 +11,7 @@ const pkg = require(path.resolve(rootDir, 'package.json'))
 const libraryName = 'Theme-Lens'
 const libraryVersion = pkg.version
 
-const showcaseURL = 'https://primevue.org/'
+const showcaseURL = 'https://theme-lens.org/'
 
 const fileModules = {}
 const veturTags = {}

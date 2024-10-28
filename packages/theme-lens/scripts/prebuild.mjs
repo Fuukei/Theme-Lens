@@ -22,8 +22,6 @@ fs.readdirSync(path.resolve(__root, INPUT_DIR), { withFileTypes: true })
   .forEach(({ name: folderName }) => {
     const folderPath = path.resolve(__root, INPUT_DIR + folderName)
 
-    console.log('folderPath', folderPath)
-
     fs.readdirSync(folderPath).forEach((file) => {
       const fileName = file.split(/(.vue)$|(.js)$/)[0]
       const name = fileName.toLowerCase()
