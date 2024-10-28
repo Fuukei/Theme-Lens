@@ -87,7 +87,7 @@ const props = defineProps<{
 
   .navbar-utils {
     display: flex;
-    padding: 0.375rem;
+    padding: 0.1875rem;
     flex-direction: row;
     gap: 1rem;
   }
@@ -116,8 +116,8 @@ const props = defineProps<{
 
 html.dark {
   .navbar-bg {
-    background: rgba(0, 0, 0, 0.75);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.65);
+    box-shadow: 0 4px 12px rgba(33, 33, 33, 0.5);
     transition: all 0.6s ease-in-out;
     backdrop-filter: saturate(180%) blur(10px);
 
@@ -131,12 +131,16 @@ html.dark {
 
     &:not(.active-header) {
       border-radius: 50px;
-      border: 1px solid #2c2c2c;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      border: 1px solid #222222;
+      box-shadow: 0 4px 12px rgba(33, 33, 33, 0.5);
     }
 
     a {
-      color: #fff;
+      color: #cccccc;
+
+      &:hover {
+        box-shadow: inset 0 0 10px rgba(33, 33, 33, 0.1);
+      }
     }
   }
 }

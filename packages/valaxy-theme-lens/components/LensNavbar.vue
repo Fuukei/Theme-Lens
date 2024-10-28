@@ -18,7 +18,7 @@ const themeConfig = useThemeConfig()
 <template>
   <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
     <template #utils>
-      <LensToggleTheme class="daynight" />
+      <LensToggleTheme/>
       <!-- TODO: 优先完成文章列表再进行搜索 -->
       <div i-ant-design-search-outlined></div>
     </template>
