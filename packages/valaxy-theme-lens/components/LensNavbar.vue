@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Navbar } from 'theme-lens'
-import { useAppStore, useSiteConfig } from 'valaxy'
+import { useSiteConfig } from 'valaxy'
 
 // import { computed } from 'vue'
 // import { useRoute } from 'vue-router'
@@ -9,18 +9,15 @@ import { useThemeConfig } from '../composables'
 // const route = useRoute()
 // const isIndex = computed(() => route.path.replace(/index.html$/, '') === '/')
 
-const appStore = useAppStore()
-
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
 </script>
 
 <template>
   <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
-    <template #utils>
-      <LensToggleTheme/>
+    <template #utils-expand>
       <!-- TODO: 优先完成文章列表再进行搜索 -->
-      <div i-ant-design-search-outlined></div>
+      <div i-ant-design-search-outlined />
     </template>
   </Navbar>
   <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">

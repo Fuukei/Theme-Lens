@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { Date } from 'theme-lens'
-
 import { useFrontmatter, usePostList } from 'valaxy'
+import { computed } from 'vue'
+
+import { useRoute } from 'vue-router'
 
 const frontmatter = useFrontmatter()
 
@@ -34,12 +34,12 @@ const prevPost = computed(() => posts.value[findCurrentIndex() + 1])
       style="grid-template-rows: auto 1fr"
     >
       <StarterAuthor v-if="frontmatter.author" :frontmatter="frontmatter" />
-      <div class="xl:col-span-3 xl:row-span-2 divide-y divide-gray-200 xl:pb-0 dark:divide-gray-700">
+      <div class="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
         <slot />
       </div>
 
       <footer
-        class="text-sm font-medium leading-5 xl:col-start-1 xl:row-start-2 divide-y divide-gray-200 dark:divide-gray-700"
+        class="divide-y divide-gray-200 dark:divide-gray-700 text-sm font-medium leading-5 xl:col-start-1 xl:row-start-2"
       >
         <div v-if="nextPost && nextPost.path" class="py-8">
           <h2 class="text-xs text-gray-500 tracking-wide uppercase">

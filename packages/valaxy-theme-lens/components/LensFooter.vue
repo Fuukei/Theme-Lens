@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { capitalize, computed } from 'vue'
 import { useSiteConfig, useValaxyConfig } from 'valaxy'
-import { useI18n } from 'vue-i18n'
-
 import pkg from 'valaxy/package.json'
+import { capitalize, computed } from 'vue'
+
+import { useI18n } from 'vue-i18n'
 import { useThemeConfig } from '../composables'
 
 const { t } = useI18n()
@@ -30,7 +30,7 @@ const footerIcon = computed(() => themeConfig.value.footer.icon!)
       </a>
     </div>
 
-    <div class="copyright flex items-center justify-center" p="1">
+    <div class="flex items-center justify-center copyright" p="1">
       <span>
         &copy;
         <template v-if="!isThisYear">
