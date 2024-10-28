@@ -114,4 +114,30 @@ const props = defineProps<{
   }
 }
 
+html.dark {
+  .navbar-bg {
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    transition: all 0.6s ease-in-out;
+    backdrop-filter: saturate(180%) blur(10px);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.95);
+    }
+
+    &.active-header {
+      backdrop-filter: saturate(180%) blur(10px);
+    }
+
+    &:not(.active-header) {
+      border-radius: 50px;
+      border: 1px solid #2c2c2c;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+
+    a {
+      color: #fff;
+    }
+  }
+}
 </style>
