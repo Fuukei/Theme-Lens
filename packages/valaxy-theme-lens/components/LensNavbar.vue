@@ -16,8 +16,10 @@ const themeConfig = useThemeConfig()
 <template>
   <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
     <template #utils-expand>
+      <button class="toggle-search" type="button" aria-label="Toggle Search">
+        <div i-ant-design-search-outlined />
+      </button>
       <!-- TODO: 优先完成文章列表再进行搜索 -->
-      <div i-ant-design-search-outlined />
     </template>
   </Navbar>
   <!-- <nav w="full" class="flex items-center justify-between py-10 font-bold">

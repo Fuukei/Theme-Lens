@@ -96,6 +96,31 @@ const props = defineProps<{
     padding: 0.1875rem;
     flex-direction: row;
     gap: 1rem;
+
+    button {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.6);
+      transition:
+        color 0.3s,
+        background-color 0.3s,
+        text-shadow 0.3s;
+      padding: 0.5rem max(0.5rem, env(safe-area-inset-left)) 0.5rem max(0.5rem, env(safe-area-inset-right));
+      border-radius: 50px;
+      text-shadow: 1px 1px 5px rgba(85, 85, 85, 0.175);
+      
+      &:hover {
+        color: #007bff;
+        background-color: rgba(0, 123, 255, 0.1);
+        border-radius: 50px;
+        text-shadow: 1px 1px 5px rgba(0, 123, 255, 0.175);
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+    }
   }
 }
 
@@ -149,5 +174,21 @@ html.dark {
       }
     }
   }
+
+  .navbar-utils {
+    button {
+      color: #cccccc;
+      transition:
+        color 0.3s,
+        background-color 0.3s,
+        text-shadow 0.3s;
+      text-shadow: 1px 1px 5px rgba(85, 85, 85, 0.175);
+      
+      &:hover {
+        box-shadow: inset 0 0 10px rgba(33, 33, 33, 0.1);
+      }
+    }
+  }
+
 }
 </style>
