@@ -1,4 +1,8 @@
 
+// AppLink
+export * from './applink/AppLink.vue';
+export { default as AppLink } from './applink/AppLink.vue';
+
 // Article
 export * from './article/Article.vue';
 export { default as Article } from './article/Article.vue';

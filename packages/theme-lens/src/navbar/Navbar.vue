@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NavbarItem } from './navbar'
+import { AppLink } from '../lens'
 
 const props = defineProps<{
   title?: string;
