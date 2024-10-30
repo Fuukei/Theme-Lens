@@ -35,7 +35,7 @@
   "engines": {},
   "scripts": {
     "build": "NODE_ENV=production INPUT_DIR=src/ OUTPUT_DIR=dist/ pnpm run build:package",
-    "build:package": "pnpm run build:prebuild && pnpm run build:api && pnpm run build:postbuild",
+    "build:package": "pnpm run build:prebuild && pnpm run build:api && gulp --require @esbuild-kit/cjs-loader -f gulpfile.ts && pnpm run build:postbuild",
     "build:api": "node ./scripts/build-api.js",
     "build:prebuild": "node ./scripts/prebuild.mjs",
     "build:postbuild": "node ./scripts/postbuild.mjs",
@@ -43,5 +43,8 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest watch",
     "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "motion": "^10.18.0"
   }
 }

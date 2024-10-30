@@ -11,10 +11,14 @@ import { useThemeConfig } from '../composables'
 
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
+
+import { useFrontmatter } from 'valaxy'
+
+const frontmatter = useFrontmatter()
 </script>
 
 <template>
-  <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar">
+  <Navbar :navbar="themeConfig.nav" :avatar="siteConfig.author.avatar" :post="frontmatter">
     <template #utils-expand>
       <button class="toggle-search" type="button" aria-label="Toggle Search">
         <div i-ant-design-search-outlined />
