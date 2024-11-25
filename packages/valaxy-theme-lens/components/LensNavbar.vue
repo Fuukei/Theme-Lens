@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Navbar } from 'theme-lens'
-import { useSiteConfig } from 'valaxy'
+import { useFrontmatter, useSiteConfig } from 'valaxy'
 
 // import { computed } from 'vue'
 // import { useRoute } from 'vue-router'
@@ -11,8 +11,6 @@ import { useThemeConfig } from '../composables'
 
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()
-
-import { useFrontmatter } from 'valaxy'
 
 const frontmatter = useFrontmatter()
 </script>
