@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Post } from '../post/post'
 import type { NavbarItem } from './navbar'
-import { timeline } from 'motion'
 import { onMounted, ref, watch } from 'vue'
 import { collapseNavbarAnimation, expandNavbarAnimation } from '../aerialisland/aerialIsland'
 import Aerialisland from '../aerialisland/AerialIsland.vue'
@@ -30,12 +29,10 @@ onMounted(() => {
 watch(isTop, (newVal) => {
   // 导航栏动画
   if (newVal) {
-    const sequence = expandNavbarAnimation(width.value)
-    const animation = timeline(sequence)
+    expandNavbarAnimation(width.value)
   }
   else {
-    const sequence = collapseNavbarAnimation(width.value)
-    const animation = timeline(sequence)
+    collapseNavbarAnimation(width.value)
   }
 })
 </script>

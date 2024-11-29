@@ -1,5 +1,5 @@
 import type { EasingGenerator, MotionKeyframesDefinition, TimelineDefinition } from 'motion'
-import { spring } from 'motion'
+import { spring, timeline } from 'motion'
 import { ref } from 'vue'
 
 export const isAttachSide = ref<boolean>()
@@ -19,7 +19,7 @@ export function expandNavbarAnimation(width: string) {
     // ['.aerial-island .center-side .overlay', { backdropFilter: ['blur(2.2px)', 'blur(0)'] }, { duration: 0.8, at: '<' }],
     // ['.aerial-island .center-side .overlay', { display: 'none' }, { duration: 0 }],
   ]
-  return sequence
+  return timeline(sequence)
 }
 
 /**
@@ -57,7 +57,7 @@ export function collapseNavbarAnimation(width: string) {
 
   // sequence.push(['.aerial-island .center-side .overlay', { display: ['block', 'none'] }, { duration: 0.1, at: '<' }])
 
-  return sequence
+  return timeline(sequence)
 }
 
 // Side Animations
@@ -94,7 +94,7 @@ export function attachSideAnimation(side: Side) {
 
   sideMapping[side]?.()
 
-  return sequence
+  return timeline(sequence)
 }
 
 export function detachSideAnimation(side: Side) {
@@ -134,7 +134,7 @@ export function detachSideAnimation(side: Side) {
 
   sideMapping[side]?.()
 
-  return sequence
+  return timeline(sequence)
 }
 
 export const attachbothSideAnimation = () => attachSideAnimation('both')

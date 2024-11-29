@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { timeline } from 'motion'
-import { onMounted } from 'vue'
-import { attachSideAnimation, detachSideAnimation } from '../aerialisland/aerialIsland'
-
-onMounted(() => {
-  // Note: Test demo
-  setTimeout(() => {
-    timeline(attachSideAnimation('both')).finished.then(() => {
-      setTimeout(() => {
-        timeline(detachSideAnimation('both'))
-      }, 3000)
-    })
-  }, 4000)
-})
-</script>
-
 <template>
   <header class="aerial-island">
     <div class="navbar-bg leading-side">
