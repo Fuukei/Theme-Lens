@@ -34,7 +34,7 @@ watch(isTop, (newVal) => {
   else {
     collapseNavbarAnimation(width.value)
   }
-})
+}, { immediate: true })
 </script>
 
 <template>

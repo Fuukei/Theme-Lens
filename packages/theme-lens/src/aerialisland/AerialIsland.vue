@@ -30,14 +30,6 @@
     top: 2.5%;
   }
 
-  .leading-side {
-    margin-right: 1rem;
-  }
-
-  .trailing-side {
-    margin-left: 1rem;
-  }
-
   .leading-side,
   .trailing-side,
   .center-side {
@@ -83,7 +75,9 @@ html.dark {
 
     &:not(.active-header) {
       border-radius: 50px;
-      border: 1px solid #222222;
+      // border-width 为动态数值
+      border-style: solid;
+      border-color: #222222;
       box-shadow: 0 4px 12px rgba(33, 33, 33, 0.5);
     }
 

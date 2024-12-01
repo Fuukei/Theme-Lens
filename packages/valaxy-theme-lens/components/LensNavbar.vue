@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { Navbar } from 'theme-lens'
-import { attachSideAnimation, detachSideAnimation } from 'theme-lens/src/aerialisland/animation'
+import { attachSideAnimation, detachSideAnimation, expandedAnimation } from 'theme-lens/src/aerialisland/animation'
 import { useFrontmatter, useLayout, useSiteConfig } from 'valaxy'
-import { computed, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { useThemeConfig } from '../composables'
 
 const siteConfig = useSiteConfig()
@@ -13,7 +13,7 @@ const frontmatter = useFrontmatter()
 
 const actions: Record<string, () => void> = {
   home: () => attachSideAnimation('both'),
-  post: () => detachSideAnimation('both'),
+  post: () => detachSideAnimation('leading'),
 }
 
 watch(layout as ComputedRef<string>, layout => actions[layout]?.())
@@ -21,6 +21,14 @@ watch(layout as ComputedRef<string>, layout => actions[layout]?.())
 const navbarImg = computed(() => {
   return layout.value === 'post' ? siteConfig.value.author.avatar : siteConfig.value.favicon
 })
+
+onMounted(() => {
+  actions[layout.value as string]?.()
+})
+
+setTimeout(() => {
+  expandedAnimation()
+}, 4000)
 </script>
 
 <template>
