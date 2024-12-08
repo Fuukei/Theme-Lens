@@ -1,3 +1,8 @@
+<script setup lang="ts">
+// Test
+import { aerialIslandState } from './aerialIsland'
+</script>
+
 <template>
   <header class="aerial-island">
     <div class="navbar-bg leading-side">
@@ -5,7 +10,8 @@
     </div>
 
     <nav class="navbar-bg center-side">
-      <slot name="center" />
+      <slot v-if="!aerialIslandState.isExpanded" name="center" />
+      <slot v-else name="expanded" />
     </nav>
 
     <div class="navbar-bg trailing-side">

@@ -2,7 +2,7 @@
 import type { Post } from '../post/post'
 import type { NavbarItem } from './navbar'
 import { onMounted, ref, watch } from 'vue'
-import { collapseNavbarAnimation, expandNavbarAnimation } from '../aerialisland/aerialIsland'
+import { aerialIslandAnimation, aerialIslandAnimationInit } from '../aerialisland/aerialIsland'
 import Aerialisland from '../aerialisland/AerialIsland.vue'
 import { AppLink, ToggleDark } from '../lens'
 
@@ -15,11 +15,10 @@ const props = defineProps<{
 
 // Ref to toggle active state for animations
 const isActive = ref(false)
-const width = ref()
 const isTop = ref(true)
 
 onMounted(() => {
-  width.value = document.querySelector('.aerial-island .center-side')?.clientWidth
+  aerialIslandAnimationInit()
 
   window.addEventListener('scroll', () => {
     isTop.value = window.scrollY === 0
@@ -29,12 +28,12 @@ onMounted(() => {
 watch(isTop, (newVal) => {
   // 导航栏动画
   if (newVal) {
-    expandNavbarAnimation(width.value)
+    aerialIslandAnimation('expandedWidth')
   }
   else {
-    collapseNavbarAnimation(width.value)
+    aerialIslandAnimation('collapsedWidth')
   }
-}, { immediate: true })
+})
 </script>
 
 <template>
@@ -49,7 +48,7 @@ watch(isTop, (newVal) => {
       <div class="navbar-links">
         <span v-show="post?.title && !isTop" class="flex-center w-full">
           <a>
-            Title: {{ post.title }}
+            Title: {{ post?.title }}
           </a>
         </span>
         <div v-show="isTop" class="flex-center w-full">
@@ -67,6 +66,10 @@ watch(isTop, (newVal) => {
           <slot name="utils-expand" />
         </slot>
       </div>
+    </template>
+
+    <template #expanded>
+      <div w="300px" />
     </template>
   </Aerialisland>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { Navbar } from 'theme-lens'
-import { attachSideAnimation, detachSideAnimation, expandedAnimation } from 'theme-lens/src/aerialisland/animation'
+import { aerialIslandAnimation } from 'theme-lens/src/aerialisland/aerialIsland'
 import { useFrontmatter, useLayout, useSiteConfig } from 'valaxy'
 import { computed, onMounted, watch } from 'vue'
 import { useThemeConfig } from '../composables'
@@ -12,8 +12,8 @@ const layout = useLayout()
 const frontmatter = useFrontmatter()
 
 const actions: Record<string, () => void> = {
-  home: () => attachSideAnimation('both'),
-  post: () => detachSideAnimation('leading'),
+  home: () => aerialIslandAnimation('attachedBothSide'),
+  post: () => aerialIslandAnimation('detachedLeadingSide'),
 }
 
 watch(layout as ComputedRef<string>, layout => actions[layout]?.())
@@ -27,8 +27,12 @@ onMounted(() => {
 })
 
 setTimeout(() => {
-  expandedAnimation()
+  aerialIslandAnimation('expandedHeight')
 }, 4000)
+
+setTimeout(() => {
+  aerialIslandAnimation('collapsedHeight')
+}, 8000)
 </script>
 
 <template>

@@ -1,40 +1,37 @@
 import type { EasingGenerator, MotionKeyframesDefinition, TimelineDefinition } from 'motion'
-import { spring, timeline } from 'motion'
+import type { Side } from './type'
+import { spring } from 'motion'
 import { ref } from 'vue'
+import { aerialIslandState, aerialIslandStyles } from './aerialIsland'
 
-export const isAttachSide = ref<boolean>()
-export const isAttachLeadingSide = ref<boolean>()
-export const isAttachTrailing = ref<boolean>()
-
-export const isExpanded = ref<boolean>()
-
-export const stylesConfig: MotionKeyframesDefinition = {
-  borderWidth: '1px',
-  margin: '1rem',
-}
+// 展开前的宽度
+const previousExpandedWidth = ref<string>()
+// 收起前的宽度
+const previousCollapsedWidth = ref<string>()
 
 /**
  * 展开导航栏动画
- * @param width - 导航栏目标宽度（像素值）
- * 定义了导航栏展开时的动画序列，包括宽度的变化、背景颜色渐变、模糊效果以及初始显示状态。
+ * @param width - 导航栏目标宽度
  */
-export function expandNavbarAnimation(width: string) {
+export function expandWidthAnimation(width: string): TimelineDefinition {
+  previousCollapsedWidth.value = width
+
   const sequence: TimelineDefinition = [
     // ['.aerial-island .center-side .overlay', { display: 'block' }, { duration: 0 }], // Initialize visible
-    ['.aerial-island .center-side', { width: [`200px`, `${width}px`] }, { easing: spring({ stiffness: 70, damping: 7, restSpeed: 200 }), duration: 0.6 }],
+    ['.aerial-island .center-side', { width: [previousExpandedWidth.value || width, width] }, { easing: spring({ stiffness: 70, damping: 7, restSpeed: 200 }), duration: 0.6 }],
     // ['.aerial-island .center-side .overlay', { backgroundColor: ['hsla(0, 0%, 100%, 0.7)', 'transparent'] }, { duration: 0.8, at: '<' }],
     // ['.aerial-island .center-side .overlay', { backdropFilter: ['blur(2.2px)', 'blur(0)'] }, { duration: 0.8, at: '<' }],
     // ['.aerial-island .center-side .overlay', { display: 'none' }, { duration: 0 }],
   ]
-  return timeline(sequence)
+
+  return sequence
 }
 
 /**
  * 收起导航栏动画
- * @param width - 导航栏当前宽度（像素值）
- * 定义了导航栏收起时的动画序列，包括宽度的收缩、背景颜色渐变、模糊效果、轻微高度调整以及最终隐藏状态。
+ * @param width - 收起导航栏目标宽度
  */
-export function collapseNavbarAnimation(width: string) {
+export function collapseWidthAnimation(width: string): TimelineDefinition {
   const collapseStyles: Record<string, MotionKeyframesDefinition> & {
     spring: EasingGenerator
   } = {
@@ -42,9 +39,12 @@ export function collapseNavbarAnimation(width: string) {
     height: { height: ['43px', '44px'] },
     spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
   }
+  const { side } = aerialIslandState.value
+
+  previousExpandedWidth.value = width
 
   const sequence: TimelineDefinition = [
-    ['.aerial-island .center-side', { width: [`${width}px`, `200px`] }, { duration: 0.4 }],
+    ['.aerial-island .center-side', { width: [previousCollapsedWidth.value || width, width] }, { duration: 0.4 }],
     // ['.aerial-island .center-side .overlay', collapseStyles.blur, { duration: 0.8, at: '<' }],
   ]
 
@@ -52,55 +52,170 @@ export function collapseNavbarAnimation(width: string) {
     sequence.push([selector, collapseStyles.height, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
   }
 
-  addHeightAnimation('.aerial-island .center-side')
-
-  if (isAttachLeadingSide.value) {
-    addHeightAnimation('.aerial-island .leading-side')
-  }
-
-  if (isAttachTrailing.value) {
+  if (side === 'leading' || side === 'both')
     addHeightAnimation('.aerial-island .trailing-side')
-  }
+  if (side === 'trailing' || side === 'both')
+    addHeightAnimation('.aerial-island .leading-side')
+
+  addHeightAnimation('.aerial-island .center-side')
 
   // sequence.push(['.aerial-island .center-side .overlay', { display: ['block', 'none'] }, { duration: 0.1, at: '<' }])
 
-  return timeline(sequence)
+  return sequence
 }
 
-// Side Animations
+let defaultHeight
+// export function collapsed
 
-type Side = 'leading' | 'trailing' | 'both'
+/**
+ * 扩大动画
+ * 该函数实现了元素的扩展动画，包括元素的高度变化、模糊效果、侧边栏的显示与隐藏等。
+ * 它通过设置不同的样式和动画序列来实现视觉效果的平滑过渡。
+ */
+export function expandHeightAnimation(height: string): TimelineDefinition {
+  const { side } = aerialIslandState.value
 
-export function attachSideAnimation(side: Side) {
+  const sequence: TimelineDefinition = [['.aerial-island', { top: ['2.5%', '10%'] }]]
+
+  defaultHeight = `${document.querySelector('.aerial-island')?.clientHeight}px`
+
+  console.log('defaultHeight', defaultHeight)
+
+  const collapseStyles: Record<string, MotionKeyframesDefinition> & {
+    spring: EasingGenerator
+  } = {
+    blur: { filter: ['blur(0', 'blur(10px)'] },
+    height: { height: ['43px', height] },
+    spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+  }
+
+  aerialIslandState.value.isExpanded = true
+
+  if (side === 'leading' || side === 'trailing') {
+    aerialIslandState.value.cacheSide = aerialIslandState.value.side
+    sequence.push(...attachSideAnimation('both'))
+  }
+
+  const addHeightAnimation = (selector: string) => {
+    sequence.push([selector, collapseStyles.height, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  }
+
+  addHeightAnimation('.aerial-island .center-side')
+  addHeightAnimation('.aerial-island .leading-side')
+  addHeightAnimation('.aerial-island .trailing-side')
+
+  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  sequence.push(['.aerial-island .leading-side > *', { display: ['block', 'none'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', { display: ['block', 'none'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  sequence.push(['.aerial-island .leading-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  return sequence
+}
+
+/**
+ * 收缩动画
+ * 该函数实现了元素的收缩动画，包括元素的高度变化、模糊效果、侧边栏的显示与隐藏等。
+ * 它通过设置不同的样式和动画序列来实现视觉效果的平滑过渡。
+ */
+export function collapseHeightAnimation(height: string): TimelineDefinition {
+  // TODO:
+  const sequence: TimelineDefinition = [['.aerial-island', { top: ['10%', '2.5%'] }]]
+
+  const collapseStyles: Record<string, MotionKeyframesDefinition> & {
+    spring: EasingGenerator
+  } = {
+    blur: { filter: ['blur(10px)', 'blur(0)'] },
+    height: { height: [height, '43px'] },
+    spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+  }
+
+  if (aerialIslandState.value.cacheSide) {
+    sequence.push(...detachSideAnimation(aerialIslandState.value.cacheSide))
+    aerialIslandState.value.cacheSide = null
+  }
+
+  aerialIslandState.value.isExpanded = false
+
+  const addHeightAnimation = (selector: string) => {
+    sequence.push([selector, collapseStyles.height, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  }
+
+  addHeightAnimation('.aerial-island .center-side')
+  addHeightAnimation('.aerial-island .leading-side')
+  addHeightAnimation('.aerial-island .trailing-side')
+
+  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  sequence.push(['.aerial-island .leading-side > *', { display: ['none', 'flex'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', { display: ['none', 'flex'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  sequence.push(['.aerial-island .leading-side', { width: ['20px', 'auto'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side', { width: ['20px', 'auto'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+
+  return sequence
+}
+
+export function expandAnimation({ width, height }: { width: string, height?: string } | { width?: string, height: string }): TimelineDefinition {
+  if (width && height)
+    return [...expandWidthAnimation(width), ...expandHeightAnimation(height)]
+  else if (width)
+    return expandWidthAnimation(width)
+  else if (height)
+    return expandHeightAnimation(height)
+
+  return []
+}
+
+export function collapseAnimation({ width, height }: { width: string, height?: string } | { width?: string, height: string }): TimelineDefinition {
+  if (width && height)
+    return [...collapseWidthAnimation(width), ...collapseHeightAnimation(height)]
+  else if (width)
+    return collapseWidthAnimation(width)
+  else if (height)
+    return collapseHeightAnimation(height)
+
+  return []
+}
+
+/**
+ * 合并天空岛
+ *
+ * @param side - 要附加动画的侧面 ('leading', 'trailing', 或 'both')
+ */
+export function attachSideAnimation(side: Side): TimelineDefinition {
   const sequence: TimelineDefinition = []
   const sideBaseStyles: Record<string, MotionKeyframesDefinition> = {
-    leading: { borderRadius: '20px 0 0 20px', marginRight: 0, borderTopWidth: stylesConfig.borderWidth, borderRightWidth: 0, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: stylesConfig.borderWidth },
-    trailing: { borderRadius: '0 20px 20px 0', marginLeft: 0, borderTopWidth: stylesConfig.borderWidth, borderRightWidth: stylesConfig.borderWidth, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: 0 },
-    center: { borderRadius: 0, borderTopWidth: stylesConfig.borderWidth, borderRightWidth: 0, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: 0 },
+    leading: { borderRadius: '20px 0 0 20px', marginRight: 0, borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: 0, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: aerialIslandStyles.borderWidth },
+    trailing: { borderRadius: '0 20px 20px 0', marginLeft: 0, borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: aerialIslandStyles.borderWidth, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: 0 },
+    center: { borderRadius: 0, borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: 0, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: 0 },
   }
 
   const sideMapping = {
     leading: () => {
-      isAttachLeadingSide.value = true
+      aerialIslandState.value.side = 'leading'
       sequence.push(['.aerial-island .leading-side', sideBaseStyles.leading, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideBaseStyles.trailing, { at: '<' }])
 
       // Border
-      sequence.push(['.aerial-island .leading-side', { borderTopWidth: stylesConfig.borderWidth, borderRightWidth: 0, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: stylesConfig.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .leading-side', { borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: 0, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
       sequence.push(['.aerial-island .trailing-side', { borderTopWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderLeftWidth: 0 }, { at: '<' }])
       sequence.push(['.aerial-island .center-side', { borderTopWidth: 0, borderRightWidth: 0, borderBottomWidth: 0, borderLeftWidth: 0 }, { at: '<' }])
     },
     trailing: () => {
-      isAttachTrailing.value = true
+      aerialIslandState.value.side = 'trailing'
       sequence.push(['.aerial-island .trailing-side', sideBaseStyles.trailing, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideBaseStyles.leading, { at: '<' }])
 
       // Border
-      sequence.push(['.aerial-island .leading-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .leading-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
     },
     both: () => {
-      isAttachLeadingSide.value = true
-      isAttachTrailing.value = true
+      aerialIslandState.value.side = 'both'
       sequence.push(['.aerial-island .leading-side', sideBaseStyles.leading, { at: '<' }])
       sequence.push(['.aerial-island .trailing-side', sideBaseStyles.trailing, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideBaseStyles.center, { at: '<' }])
@@ -109,10 +224,16 @@ export function attachSideAnimation(side: Side) {
 
   sideMapping[side]?.()
 
-  return timeline(sequence)
+  return sequence
 }
 
-export function detachSideAnimation(side: Side) {
+/**
+ * 分离天空岛的某一侧
+ *
+ * @param side - 要移除动画的侧面('leading', 'trailing', 或 'both')
+ * @returns 包含动画序列和过渡效果的对象。
+ */
+export function detachSideAnimation(side: Side): TimelineDefinition {
   const sequence: TimelineDefinition = []
 
   const sideBaseStyles: Record<string, MotionKeyframesDefinition> = {
@@ -129,80 +250,42 @@ export function detachSideAnimation(side: Side) {
 
   const sideMapping = {
     leading: () => {
-      isAttachLeadingSide.value = false
+      aerialIslandState.value.side = 'leading'
       // TODO: 待完成
       sequence.push(['.aerial-island .leading-side', { borderRadius: '20px', marginRight: '1rem' }, { at: '<' }])
       sequence.push(['.aerial-island .trailing-side', { borderRadius: '0 20px 20px 0' }, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideCenterStyles.leading, { at: '<' }])
 
       // Border
-      sequence.push(['.aerial-island .leading-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
-      sequence.push(['.aerial-island .trailing-side', { borderTopWidth: stylesConfig.borderWidth, borderRightWidth: stylesConfig.borderWidth, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: 0 }, { at: '<' }])
-      sequence.push(['.aerial-island .center-side', { borderTopWidth: stylesConfig.borderWidth, borderRightWidth: 0, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: stylesConfig.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .leading-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .trailing-side', { borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: aerialIslandStyles.borderWidth, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: 0 }, { at: '<' }])
+      sequence.push(['.aerial-island .center-side', { borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: 0, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
     },
     trailing: () => {
-      isAttachTrailing.value = false
+      aerialIslandState.value.side = 'trailing'
       sequence.push(['.aerial-island .leading-side', { borderRadius: '20px 0 0 20px', marginRight: 0 }, { at: '<' }])
       sequence.push(['.aerial-island .trailing-side', sideBaseStyles.trailing, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideCenterStyles.trailing, { at: '<' }])
 
       // Border
-      sequence.push(['.aerial-island .leading-side', { borderTopWidth: stylesConfig.borderWidth, borderRightWidth: 0, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: stylesConfig.borderWidth }, { at: '<' }])
-      sequence.push(['.aerial-island .trailing-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
-      sequence.push(['.aerial-island .center-side', { borderTopWidth: stylesConfig.borderWidth, borderRightWidth: stylesConfig.borderWidth, borderBottomWidth: stylesConfig.borderWidth, borderLeftWidth: 0 }, { at: '<' }])
+      sequence.push(['.aerial-island .leading-side', { borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: 0, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .trailing-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .center-side', { borderTopWidth: aerialIslandStyles.borderWidth, borderRightWidth: aerialIslandStyles.borderWidth, borderBottomWidth: aerialIslandStyles.borderWidth, borderLeftWidth: 0 }, { at: '<' }])
     },
     both: () => {
-      isAttachLeadingSide.value = false
-      isAttachTrailing.value = false
+      aerialIslandState.value.side = 'both'
       sequence.push(['.aerial-island .leading-side', sideBaseStyles.leading, { at: '<' }])
       sequence.push(['.aerial-island .trailing-side', sideBaseStyles.trailing, { at: '<' }])
       sequence.push(['.aerial-island .center-side', sideCenterStyles.both, { at: '<' }])
 
       // Border
-      sequence.push(['.aerial-island .leading-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
-      sequence.push(['.aerial-island .trailing-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
-      sequence.push(['.aerial-island .center-side', { borderWidth: stylesConfig.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .leading-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .trailing-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
+      sequence.push(['.aerial-island .center-side', { borderWidth: aerialIslandStyles.borderWidth }, { at: '<' }])
     },
   }
 
   sideMapping[side]?.()
 
-  return timeline(sequence)
-}
-
-export const attachbothSideAnimation = () => attachSideAnimation('both')
-export const detachbothSideAnimation = () => detachSideAnimation('both')
-export const attachLeadingSideAnimation = () => attachSideAnimation('leading')
-export const detachLeadingSideAnimation = () => detachSideAnimation('leading')
-export const attachTrailingSideAnimation = () => attachSideAnimation('trailing')
-export const detachTrailingSideAnimation = () => detachSideAnimation('trailing')
-
-export function expandedAnimation() {
-  const sequence: TimelineDefinition = [['.aerial-island', { top: ['2.5%', '10%'] }]]
-
-  const collapseStyles: Record<string, MotionKeyframesDefinition> & {
-    spring: EasingGenerator
-  } = {
-    blur: { filter: ['blur(0', 'blur(10px)'] },
-    height: { height: ['43px', '200px'] },
-    spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
-  }
-
-  isExpanded.value = true
-
-  const addHeightAnimation = (selector: string) => {
-    sequence.push([selector, collapseStyles.height, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  }
-
-  addHeightAnimation('.aerial-island .center-side')
-  addHeightAnimation('.aerial-island .leading-side')
-  addHeightAnimation('.aerial-island .trailing-side')
-
-  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-
-  sequence.push(['.aerial-island .leading-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-
-  return timeline(sequence)
+  return sequence
 }
