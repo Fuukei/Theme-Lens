@@ -67,6 +67,9 @@ export function collapseWidthAnimation(width: string): TimelineDefinition {
 let defaultHeight
 // export function collapsed
 
+const leadingSideWidth = ref()
+const trailingSideWidth = ref()
+
 /**
  * 扩大动画
  * 该函数实现了元素的扩展动画，包括元素的高度变化、模糊效果、侧边栏的显示与隐藏等。
@@ -78,6 +81,8 @@ export function expandHeightAnimation(height: string): TimelineDefinition {
   const sequence: TimelineDefinition = [['.aerial-island', { top: ['2.5%', '10%'] }]]
 
   defaultHeight = `${document.querySelector('.aerial-island')?.clientHeight}px`
+  leadingSideWidth.value = `${document.querySelector('.aerial-island .leading-side')?.clientWidth}px`
+  trailingSideWidth.value = `${document.querySelector('.aerial-island .trailing-side')?.clientWidth}px`
 
   console.log('defaultHeight', defaultHeight)
 
@@ -86,7 +91,8 @@ export function expandHeightAnimation(height: string): TimelineDefinition {
   } = {
     blur: { filter: ['blur(0', 'blur(10px)'] },
     height: { height: ['43px', height] },
-    spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+    // spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+    spring: spring({ velocity: 80, stiffness: 60, damping: 9 }),
   }
 
   aerialIslandState.value.isExpanded = true
@@ -104,14 +110,14 @@ export function expandHeightAnimation(height: string): TimelineDefinition {
   addHeightAnimation('.aerial-island .leading-side')
   addHeightAnimation('.aerial-island .trailing-side')
 
-  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { duration: 0.6, at: '<' }])
 
-  sequence.push(['.aerial-island .leading-side > *', { display: ['block', 'none'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side > *', { display: ['block', 'none'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side > *', { display: ['block', 'none'] }, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', { display: ['block', 'none'] }, { duration: 0.6, at: '<' }])
 
-  sequence.push(['.aerial-island .leading-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side', { width: ['', '20px'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side', { width: [leadingSideWidth.value, '20px'] }, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side', { width: [trailingSideWidth.value, '20px'] }, { duration: 0.6, at: '<' }])
 
   return sequence
 }
@@ -130,7 +136,8 @@ export function collapseHeightAnimation(height: string): TimelineDefinition {
   } = {
     blur: { filter: ['blur(10px)', 'blur(0)'] },
     height: { height: [height, '43px'] },
-    spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+    // spring: spring({ velocity: 80, stiffness: 70, damping: 7 }),
+    spring: spring({ velocity: 80, stiffness: 50, damping: 10 }),
   }
 
   if (aerialIslandState.value.cacheSide) {
@@ -148,14 +155,14 @@ export function collapseHeightAnimation(height: string): TimelineDefinition {
   addHeightAnimation('.aerial-island .leading-side')
   addHeightAnimation('.aerial-island .trailing-side')
 
-  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side > *', collapseStyles.blur, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', collapseStyles.blur, { duration: 0.6, at: '<' }])
 
-  sequence.push(['.aerial-island .leading-side > *', { display: ['none', 'flex'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side > *', { display: ['none', 'flex'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side > *', { display: ['none', 'flex'] }, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side > *', { display: ['none', 'flex'] }, { duration: 0.6, at: '<' }])
 
-  sequence.push(['.aerial-island .leading-side', { width: ['20px', 'auto'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
-  sequence.push(['.aerial-island .trailing-side', { width: ['20px', 'auto'] }, { easing: collapseStyles.spring, duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .leading-side', { width: ['20px', leadingSideWidth.value] }, { duration: 0.6, at: '<' }])
+  sequence.push(['.aerial-island .trailing-side', { width: ['20px', trailingSideWidth.value] }, { duration: 0.6, at: '<' }])
 
   return sequence
 }
