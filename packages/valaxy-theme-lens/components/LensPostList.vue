@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Post } from 'valaxy'
-import { ArticleCard } from 'theme-lens'
 import { usePostList } from 'valaxy'
 import { computed } from 'vue'
 
@@ -21,7 +20,7 @@ const posts = computed(() => props.posts || routes.value)
     <template v-for="post in posts" :key="post.path">
       <Transition name="fade">
         <li v-if="post" class="py-12">
-          <ArticleCard :post="post" />
+          <LensArticleCard :post="post" />
         </li>
       </Transition>
     </template>

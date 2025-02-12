@@ -46,7 +46,7 @@ watch(isTop, (newVal) => {
 
     <template #center>
       <div class="navbar-links">
-        <span v-show="post?.title && !isTop" class="flex-center w-full">
+        <span v-show="post?.title && !isTop" class="flex-center w-full" @click="aerialIslandAnimation('expandedHeight')">
           <a>
             Title: {{ post?.title }}
           </a>
@@ -69,7 +69,9 @@ watch(isTop, (newVal) => {
     </template>
 
     <template #expanded>
-      <div w="300px" />
+      <div w="300px" @click="aerialIslandAnimation('collapsedHeight')">
+        这些写一些文章摘要等内容 (expanded)
+      </div>
     </template>
   </Aerialisland>
 </template>
@@ -81,9 +83,9 @@ watch(isTop, (newVal) => {
   white-space: nowrap;
   text-shadow: #007bff;
 
-  &:hover {
-    background-color: rgba(0, 123, 255, 0.1);
-  }
+  // &:hover {
+  //   background-color: rgba(0, 123, 255, 0.1);
+  // }
 
   a {
     text-decoration: none;

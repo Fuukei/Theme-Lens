@@ -26,13 +26,13 @@ onMounted(() => {
   actions[layout.value as string]?.()
 })
 
-setTimeout(() => {
-  aerialIslandAnimation('expandedHeight')
-}, 4000)
+// setTimeout(() => {
+//   aerialIslandAnimation('expandedHeight')
+// }, 4000)
 
-setTimeout(() => {
-  aerialIslandAnimation('collapsedHeight')
-}, 8000)
+// setTimeout(() => {
+//   aerialIslandAnimation('collapsedHeight')
+// }, 8000)
 </script>
 
 <template>

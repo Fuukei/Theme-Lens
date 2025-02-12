@@ -1,9 +1,5 @@
-<script setup lang="ts">
-import { PostList } from 'theme-lens'
-</script>
-
 <template>
-  <PostList />
+  <LensPostList />
 </template>
 
 <route lang="yaml">
