@@ -17,8 +17,7 @@
   "main": "client/index.ts",
   "types": "types/index.d.ts",
   "dependencies": {
-    "@iconify-json/ant-design": "^1.1.16",
-    "theme-lens": "workspace:*"
+    "@iconify-json/ant-design": "^1.1.16"
   },
   "devDependencies": {
     "valaxy": "catalog:"

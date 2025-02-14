@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { Footer, Helper } from 'theme-lens'
-</script>
-
 <template>
   <div class="antialiased">
     <div class="mx-auto max-w-3xl px-4 xl:max-w-5xl sm:px-6 xl:px-0">

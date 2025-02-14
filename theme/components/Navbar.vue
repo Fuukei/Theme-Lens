@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { Post } from '../post/post'
 import type { NavbarItem } from './navbar'
+import type { Post } from './post'
 import { onMounted, ref, watch } from 'vue'
-import { aerialIslandAnimation, aerialIslandAnimationInit } from '../aerialisland/aerialIsland'
-import Aerialisland from '../aerialisland/AerialIsland.vue'
-import { AppLink, ToggleDark } from '../lens'
+import { aerialIslandAnimation, aerialIslandAnimationInit } from '../utils/aerialIsland'
 
 const props = defineProps<{
   title?: string
@@ -52,9 +50,9 @@ watch(isTop, (newVal) => {
           </a>
         </span>
         <div v-show="isTop" class="flex-center w-full">
-          <AppLink v-for="item in props.navbar" :key="item.text" :to="item.link">
+          <LensAppLink v-for="item in props.navbar" :key="item.text" :to="item.link">
             {{ item.text }}
-          </AppLink>
+          </LensAppLink>
         </div>
       </div>
     </template>

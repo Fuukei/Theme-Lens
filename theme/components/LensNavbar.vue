@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
-import { Navbar } from 'theme-lens'
-import { aerialIslandAnimation } from 'theme-lens/src/aerialisland/aerialIsland'
 import { useFrontmatter, useLayout, useSiteConfig } from 'valaxy'
 import { computed, onMounted, watch } from 'vue'
 import { useThemeConfig } from '../composables'
+import { aerialIslandAnimation } from '../utils/aerialIsland'
 
 const siteConfig = useSiteConfig()
 const themeConfig = useThemeConfig()

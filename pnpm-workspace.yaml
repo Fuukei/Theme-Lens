@@ -1,7 +1,6 @@
 packages:
-  - packages/*
+  - theme
   - demo
-  - demos/*
 catalog:
   nodemon: ^3.1.7
   typescript: ^5.6.3

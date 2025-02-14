@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { Post } from 'valaxy'
-import { Date } from 'theme-lens'
 
 defineProps<{
   post: Post

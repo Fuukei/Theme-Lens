@@ -3,8 +3,6 @@ import { type MotionKeyframesDefinition, timeline, type TimelineDefinition } fro
 import { ref } from 'vue'
 import { attachSideAnimation, collapseAnimation, detachSideAnimation, expandAnimation } from './animation'
 
-export * from './animation'
-
 // State
 export const aerialIslandState = ref<{
   side: Side

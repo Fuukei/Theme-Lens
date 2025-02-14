@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Test
-import { aerialIslandState } from './aerialIsland'
+import { aerialIslandState } from '../utils/aerialIsland'
 </script>
 
 <template>
