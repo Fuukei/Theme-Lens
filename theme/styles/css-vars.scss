@@ -4,7 +4,7 @@
 );
 
 :root {
-  --un-prose-links: var(--st-c-link);
+  --un-prose-links: var(--lens-c-link);
 
   @include set-css-var-from-map($common);
   @include set-css-var-from-map($z-index, 'z');

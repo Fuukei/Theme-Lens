@@ -12,7 +12,7 @@ defineProps<{
     <div class="xl:col-span-3 space-y-5">
       <div class="space-y-6">
         <h2 class="tracking-tight text-2xl font-bold leading-8">
-          <RouterLink class="st-text" :to="post.path || ''">
+          <RouterLink class="lens-text" :to="post.path || ''">
             {{ post.title }}
           </RouterLink>
         </h2>

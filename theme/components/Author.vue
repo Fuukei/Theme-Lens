@@ -26,7 +26,7 @@ defineProps<{
             <dt class="sr-only">
               Name
             </dt>
-            <dd class="st-text">
+            <dd class="lens-text">
               {{ frontmatter.author }}
             </dd>
             <dt v-if="frontmatter.twitter" class="sr-only">

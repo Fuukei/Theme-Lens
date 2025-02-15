@@ -1,5 +1,5 @@
 <template>
-  <div class="lens-widget">
+  <div class="lens-widget lens-nav-bg">
     <slot />
   </div>
 </template>
@@ -9,9 +9,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.6s ease-in-out;
-  backdrop-filter: saturate(180%) blur(10px);
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   font-size: 14px;
