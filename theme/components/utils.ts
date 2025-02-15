@@ -49,3 +49,11 @@ export function toggleDark(event: MouseEvent) {
       )
     })
 }
+/**
+ * 通过 URL 后缀名判断资源是否为视频
+ * @param {string} url - 资源的 URL
+ * @returns {boolean}
+ */
+export function isVideoUrl(url: string) {
+  return /\.(?:mp4|webm|ogg)$/i.test(url)
+}

@@ -9,6 +9,17 @@ export namespace StarterTheme {
  * Theme Config
  */
 export interface ThemeConfig extends DefaultTheme.Config {
+  /**
+   * 封面
+   */
+  hero: {
+    /**
+     * 背景 url可以为图片或者为视频
+     * @default ''
+     */
+    urls: string[]
+    randomUrl: boolean
+  }
   colors: {
     /**
      * primary color

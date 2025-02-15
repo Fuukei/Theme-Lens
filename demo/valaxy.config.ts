@@ -9,6 +9,17 @@ export default defineConfig<ThemeConfig>({
   theme: 'lens',
 
   themeConfig: {
+    hero: {
+      urls: [
+        // 测试在线图片
+        'https://w.wallhaven.cc/full/gp/wallhaven-gpokge.jpg',
+        // 测试图床
+        'https://api.maho.cc/asuhe-rand/index.php',
+        // 测试视频
+        'https://threejs.org/examples/textures/sintel.mp4',
+      ],
+      randomUrl: false,
+    },
     // colors: {
     //   primary: 'red',
     // },
