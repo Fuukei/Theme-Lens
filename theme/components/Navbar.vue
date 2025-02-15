@@ -35,7 +35,7 @@ watch(isTop, (newVal) => {
 </script>
 
 <template>
-  <Aerialisland class="navbar">
+  <LensAerialisland class="navbar">
     <template #leading>
       <div class="navbar-avatar">
         <img class="rounded-full" :src="props.avatar" alt="avatar">
@@ -71,7 +71,7 @@ watch(isTop, (newVal) => {
         这些写一些文章摘要等内容 (expanded)
       </div>
     </template>
-  </Aerialisland>
+  </LensAerialisland>
 </template>
 
 <style lang="scss" scoped>

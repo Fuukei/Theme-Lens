@@ -1,5 +1,5 @@
 <template>
-  <LensPostList />
+  <div />
 </template>
 
 <route lang="yaml">

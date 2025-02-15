@@ -4,6 +4,8 @@
       <LensNavbar />
     </div>
 
+    <LensSideNav />
+
     <main class="mx-auto max-w-3xl px-4 xl:max-w-5xl sm:px-6 xl:px-0">
       <slot>
         <RouterView v-slot="{ Component }">
